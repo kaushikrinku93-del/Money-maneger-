@@ -21,9 +21,7 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android apk
-        uses: android-actions/setup-android@v4
-with:
+
       
       - name: Install Android SDK
         run: |
