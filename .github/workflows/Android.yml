@@ -25,10 +25,13 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Accept Android Licenses
-        run: yes | sdkmanager --licenses
+        run: yes | sdkmanager --licenses || true
+
+      - name: Install Android SDK
+        run: |
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Build APK
-        shell: bash
         run: |
           if [ -f gradlew ]; then
             chmod +x gradlew
@@ -38,7 +41,7 @@ jobs:
             chmod +x gradlew
             ./gradlew assembleDebug
           else
-            echo "Gradle project not found"
+            echo "Gradle wrapper not found"
             exit 1
           fi
 
@@ -46,4 +49,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Money-Manager-APK
-          path: '**/build/outputs/apk/debug/*.apk'
+          path: |
+            **/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
