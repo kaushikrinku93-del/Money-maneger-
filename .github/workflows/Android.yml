@@ -1,5 +1,4 @@
 
-
 name: Build Money Manager APK
 
 on:
@@ -25,10 +24,11 @@ jobs:
       - name: Setup Android
         uses: android-actions/setup-android@v3
 
-      - name: Find Gradle project
-        run: ls -la
+      - name: Accept Android Licenses
+        run: yes | sdkmanager --licenses
 
       - name: Build APK
+        shell: bash
         run: |
           if [ -f gradlew ]; then
             chmod +x gradlew
